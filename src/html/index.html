@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/src/css/output.css" />
+    <title>Document</title>
+</head>
+<body class="bg-themeColor4 p-2">
+    <header class="flex justify-between items-center bg-slate-600 p-2 rounded-md shadow-md shadow-themeColor3 backdrop-blur-lg">
+        <input type="text " placeholder="search todos ..." class="ring-1 ring-themeColor2 rounded-sm focus:ring-2 focus:outline-none focus:ring-themeColor1"/>
+        <p class="text-themeColor1 text-3xl">todo list</p>
+        <img src="../../public/images/logo.png" class="w-16 h-16"/>
+    </header>
+    <main class="p-2 mt-4 flex flex-col gap-4" id="todosContainer">
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="../js/index.js"></script>
+</body>
+</html>
