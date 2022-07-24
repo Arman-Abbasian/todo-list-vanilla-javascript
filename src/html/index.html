@@ -9,7 +9,28 @@
 </head>
 <body class="bg-themeColor4 p-2">
     <header class="flex justify-between items-center bg-slate-600 p-2 rounded-md shadow-md shadow-themeColor3 backdrop-blur-lg">
-        <input type="text " placeholder="search todos ..." class="ring-1 ring-themeColor2 rounded-sm focus:ring-2 focus:outline-none focus:ring-themeColor1"/>
+        <div class="flex flex-col gap-3 justify-between items-center">
+            <div class="border-2 border-yellow-500 rounded-md p-3">
+                <input type="text" id="addInput" placeholder="add new todo" class="ring-2  ring-themeColor2 rounded-sm focus:ring-2 focus:outline-none focus:ring-themeColor1"/>
+                <button id="Add" class="border border-green-600 rounded-sm px-2 text-white bg-green-600">Add</button>
+                <div class="flex justify-center gap-2">
+                    <div class="form-check form-check-inline">
+                      <input checked class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="work" value="work">
+                      <label class="form-check-label inline-block text-white" for="inlineRadio10">work</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="personal" value="personal">
+                      <label class="form-check-label inline-block text-white" for="inlineRadio20">personal</label>
+                    </div>
+                </div>
+            <div class="border border-teal-300 p-2 rounded-md flex flex-col justify-between items-center gap-3">
+                <input id="serchInput" type="text " placeholder="search todos ..." class="ring-2  ring-themeColor2 rounded-sm focus:ring-2 focus:outline-none focus:ring-themeColor1 self-start"/>
+            <div class="catgoryButtons flex justify-between items-center gap-2">
+                <button id="work"     class="border border-themeColor4 rounded-sm px-2 text-white bg-themeColor4">work</button>
+                <button id="personal" class="border  border-themeColor4 rounded-sm px-2 text-white bg-themeColor4">personal</button>
+            </div>
+            </div>
+        </div>
         <p class="text-themeColor1 text-3xl">todo list</p>
         <img src="../../public/images/logo.png" class="w-16 h-16"/>
     </header>

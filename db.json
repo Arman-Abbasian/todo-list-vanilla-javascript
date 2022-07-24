@@ -1,12 +1,24 @@
 {
   "todos": [
     {
-      "id": "1",
-      "title": "work1"
+      "id": 1,
+      "title": "work1",
+      "category":"work"
     },
     {
-      "id": "2",
-      "title": "work2"
+      "id": 2,
+      "title": "work2",
+      "category":"work"
+    },
+    {
+      "id": 1658641862691,
+      "title": "work 3",
+      "category":"personal"
+    },
+    {
+      "id": 1658644969848,
+      "title": "work 4",
+      "category":"work"
     }
   ]
 }

@@ -1,12 +1,39 @@
 const todosContainer=document.querySelector("#todosContainer");
-console.log(todosContainer);
+const addButton=document.querySelector("#Add");
+const addInput=document.querySelector("#addInput")
+const searchInput=document.querySelector("#serchInput");
+const categoryRadioButtons=document.querySelectorAll(".categoryRadioButton");
+console.log([...categoryRadioButtons]);
+
+
 let allTodos=null;
+let filteredTodos=null;
+let inputValue="";
+const filters={input:"",radioButton:"All"}
+
 document.addEventListener("DOMContentLoaded",showTodos);
+addInput.addEventListener("change",addInputValueHandler)
+addButton.addEventListener("click",addButtonHandler);
+searchInput.addEventListener("input",updateFiltersObject);
+
+function makeCategoryButtons(){
+  const filterButtons=  allTodos.map(item=>item.category);
+  console.log(filterButtons)
+}
+
+
+function addInputValueHandler(e){
+    inputValue=e.target.value;
+}
+
 function showTodos(){
     axios.get("http://localhost:3000/todos")
     .then(res=>{
         allTodos=res.data;
-        allTodos.forEach(todo => {
+        makeCategoryButtons();
+        searchInputHandler();
+        todosContainer.innerHTML="";
+        filteredTodos.forEach(todo => {
            todosContainer.innerHTML+=`
            <div class="flex justify-between items-center bg-yellow-400 rounded-md p-3" id=smile${todo.id}>
                 <div><p>${todo.title}</p></div>
@@ -28,6 +55,34 @@ function showTodos(){
     })
     .catch(err=>console.log(err))
 };
+function updateFiltersObject(e){
+filters.input=e.target.value;
+showTodos();
+}
+function searchInputHandler(){
+  let searchFilter= allTodos.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
+   let radioButton=searchFilter.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
+   filteredTodos=radioButton;
+}
+
+function findTodos(e){
+    console.log(allTodos);
+    allTodos.forEach(todo=>{
+        console.log(todo)
+    })
+}
+
+function addButtonHandler(e){
+    console.log(e);
+    e.preventDefault();
+ axios.post("http://localhost:3000/todos",{id:Date.now(),title:inputValue})
+ .then(res=>{
+    e.preventDefault();
+    inputValue=""}
+    )
+ .catch(err=>console.log(err))
+};
+
 function red(id){
     const red=document.querySelector(`#redSmile${id}`);
        const greenSmile=document.querySelector(`#greenSmile${id}`);
@@ -61,4 +116,5 @@ function delteTodo(id){
     axios.delete("http://localhost:3000/todos/"+id)
     .then(res=>console.log(res))
     .catch(err=>console.log(err))
-}
+};
+
