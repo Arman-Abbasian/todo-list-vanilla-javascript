@@ -2,27 +2,33 @@ const todosContainer=document.querySelector("#todosContainer");
 const addButton=document.querySelector("#Add");
 const addInput=document.querySelector("#addInput")
 const searchInput=document.querySelector("#serchInput");
+const categoryFilterButtons=document.querySelectorAll(".catgoryButtons");
 const categoryRadioButtons=document.querySelectorAll(".categoryRadioButton");
-
 
 let allTodos=null;
 let filteredTodos=null;
 let inputValue="";
 let categoryButton=null;
 let changedTodo="";
-const filters={input:"",radioButton:"All"};
-const choosedcategoty=null;
+const filters={input:"",radioButton:""};
+let choosedcategoty=null;
+console.log(choosedcategoty)
 
 document.addEventListener("DOMContentLoaded",showTodos);
 addInput.addEventListener("change",addInputValueHandler)
 addButton.addEventListener("click",addButtonHandler);
-searchInput.addEventListener("input",updateFiltersObject);
+categoryFilterButtons.forEach(item=>item.addEventListener("click",()=>{
+    choosedcategoty= item.innerText;
+    console.log(choosedcategoty)
+
+}))
 searchInput.addEventListener("input",updateFiltersObject);
 
 
-function makeCategoryButtons(){
-  const filterButtons=  allTodos.map(item=>item.category);
-}
+
+
+
+
 
 function changeHandler(e,id){
     changedTodo=e.target.value;
@@ -55,24 +61,24 @@ function submitHandler(e,id){
         axios.put(`http://localhost:3000/todos/${id}`,{...res.data,title:editedValue});
         editedValue=null;
     }).catch(err=>console.log(err));
-    
 }
 
 function showTodos(){
+    //get the todos from DB when the content loaded first time then put data in a variable
     axios.get("http://localhost:3000/todos")
     .then(res=>{
         allTodos=res.data;
-        makeCategoryButtons();
-        searchInputHandler();
+        console.log(allTodos)
+        allFilters();
         todosContainer.innerHTML="";
         filteredTodos.forEach(todo => {
            todosContainer.innerHTML+=`
-           <div class="flex justify-between items-center rounded-md p-3 ${todo.smile==="greenSmile" ? 'bg-green-400' : 'bg-yellow-400'}" id=smile${todo.id}>
+           <div class="flex justify-between items-center rounded-md p-3 ${todo.smile==="greenSmile" ? 'bg-green-400' : 'bg-yellow-400'}" id=smile${todo.id}">
                 <div><p>${todo.title}</p></div>
-                <div id='edit${todo.id}' class='hidden fixed z-10 bg-slate-400 top-0 left-0 opacity-90 w-screen h-screen  items-center justify-center'>
+                <div id='edit${todo.id}' class='hidden fixed z-10 modal bg-slate-400 top-0 left-0 opacity-90 w-screen h-screen  items-center justify-center'>
                     <div class='bg-white w-2/3 h-20 rounded-sm flex justify-center items-center'>
                     <form class='flex justify-center items-center gap-2 editForm' id="${todo.id}">
-                        <div><input class="editedInput ring-2 ring-themeColor1 rounded-sm px-2 focus:outline-none"  type="text" value=${todo.title}"/></div>
+                        <div><input class="editedInput ring-2 ring-themeColor1 rounded-sm px-2 focus:outline-none"  type="text" value='${todo.title}'"/></div>
                         <div><input class='bg-themeColor4 px-1 text-white rounded-sm cursor-pointer' type="submit" value="edit"/></div>
                     </form>
                     </div>
@@ -81,10 +87,10 @@ function showTodos(){
                     <svg xmlns="http://www.w3.org/2000/svg" id="greenSmile${todo.id}" onclick="green(${todo.id})" class="h-10 w-10 cursor-pointer text-green-800 smile ${todo.id} ${todo.smile==="redSmile" ? 'hidden' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" id="redSmile${todo.id}" onclick="red(${todo.id})" class="h-10 w-10 cursor-pointer text-red-800 smile${todo.id} ${todo.smile==="greenSmile" ? 'hidden' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" id="redSmile${todo.id}"  onclick="red(${todo.id})" class="h-10 w-10 cursor-pointer text-red-800 smile${todo.id} ${todo.smile==="greenSmile" ? 'hidden' : ''}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" onclick="editTodo(${todo.id})" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <svg xmlns="http://www.w3.org/2000/svg" onclick="editTodo(${todo.id})" class="h-10 w-10 cursor-pointer" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                     </svg>  
                     <svg xmlns="http://www.w3.org/2000/svg" onclick="delteTodo(${todo.id})" class="h-10 w-10 cursor-pointer text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -94,27 +100,33 @@ function showTodos(){
             </div>
            `
         });
+        // for events that are to the looped elements that you need specific one you need to do it like below
+        // find all element with editedInput class
         const [...editTitles]=document.querySelectorAll(".editedInput");
         editTitles.forEach(editTitle=>{
             editTitle.addEventListener("change",(e)=>changeHandler(e,editTitle.id))
         });
+        // find all element with editForms class
         const [...editForms]=document.querySelectorAll(".editForm");
         editForms.forEach(editForm=>{
             editForm.addEventListener("submit",(e)=>submitHandler(e,editForm.id))
         });
-
+        const [...modals]=document.querySelectorAll(".modal");
     })
     .catch(err=>console.log(err))
 };
+function updateCategoryFiltersItem(){
 
+}
 function updateFiltersObject(e){
 filters.input=e.target.value;
+
 showTodos();
 }
-function searchInputHandler(){
-  let searchFilter= allTodos.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
-   let radioButton=searchFilter.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
-   filteredTodos=radioButton;
+function allFilters(){
+    let searchFilter= allTodos.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
+    let radioButton=searchFilter.filter(todo=>todo.category.toLowerCase().includes(filters.radioButton.toLowerCase()));
+    filteredTodos=radioButton;
 }
 
 function addButtonHandler(e){
