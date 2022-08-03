@@ -24,8 +24,9 @@
         <input id="serchInput" type="text " placeholder="search todos ..." class="ring-2  ring-themeColor2 rounded-sm focus:ring-2 focus:outline-none focus:ring-themeColor1 self-start"/>
         <!-- searchTtodoSection fiterCategorySection-->
         <div class="flex justify-start items-center gap-2">
-            <button id="work"     class="catgoryButtons rounded-md px-2 py-1 text-white bg-themeColor1 ">work</button>
-            <button id="personal" class="catgoryButtons rounded-md px-2 py-1 text-white bg-themeColor1">personal</button>
+            <button  value=""  class="catgoryButtons rounded-md px-2 py-1 text-white bg-themeColor1 ">All</button>
+            <button  value="work"   class="catgoryButtons rounded-md px-2 py-1 text-white bg-themeColor1 ">work</button>
+            <button  value="personal" class="catgoryButtons rounded-md px-2 py-1 text-white bg-themeColor1">personal</button>
         </div>
     </div>
     <!-- addTodoSection -->
@@ -39,11 +40,11 @@
         <p class="text-themeColor1 hr">category</p> 
         <div class="flex justify-start gap-2">
             <div class="form-check form-check-inline">
-              <input class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="work" value="work">
+              <input  class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="work" value="work" required>
               <label class="form-check-label inline-block text-white" for="inlineRadio10">work</label>
             </div>
             <div class="form-check form-check-inline">
-              <input class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="personal" value="personal">
+              <input  class="categoryRadioButton form-check-input form-check-input appearance-none rounded-full h-4 w-4 border border-gray-300 bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="radio" name="category" id="personal" value="personal">
               <label class="form-check-label inline-block text-white" for="inlineRadio20">personal</label>
             </div>
         </div>

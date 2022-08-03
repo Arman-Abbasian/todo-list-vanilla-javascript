@@ -5,22 +5,23 @@ const searchInput=document.querySelector("#serchInput");
 const categoryFilterButtons=document.querySelectorAll(".catgoryButtons");
 const categoryRadioButtons=document.querySelectorAll(".categoryRadioButton");
 
+
 let allTodos=null;
 let filteredTodos=null;
 let inputValue="";
 let categoryButton=null;
 let changedTodo="";
-const filters={input:"",radioButton:""};
-let choosedcategoty=null;
-console.log(choosedcategoty)
+const filters={input:"",categoryButton:""};
+
+
 
 document.addEventListener("DOMContentLoaded",showTodos);
 addInput.addEventListener("change",addInputValueHandler)
 addButton.addEventListener("click",addButtonHandler);
 categoryFilterButtons.forEach(item=>item.addEventListener("click",()=>{
-    choosedcategoty= item.innerText;
-    console.log(choosedcategoty)
-
+    filters.categoryButton= item.getAttribute("value");
+    console.log(filters.categoryButton)
+    showTodos();
 }))
 searchInput.addEventListener("input",updateFiltersObject);
 
@@ -64,12 +65,14 @@ function submitHandler(e,id){
 }
 
 function showTodos(){
-    //get the todos from DB when the content loaded first time then put data in a variable
+    //get the todos from DB when the content loaded first time then put data in a variable(allTodos)
     axios.get("http://localhost:3000/todos")
     .then(res=>{
         allTodos=res.data;
         console.log(allTodos)
+        //implement the filters on allTodos
         allFilters();
+        //empty the todo list in DOM
         todosContainer.innerHTML="";
         filteredTodos.forEach(todo => {
            todosContainer.innerHTML+=`
@@ -124,9 +127,11 @@ filters.input=e.target.value;
 showTodos();
 }
 function allFilters(){
+    //firstly implement the input filter in all todos and put the conlucsion in searchFilter variable
     let searchFilter= allTodos.filter(todo=>todo.title.toLowerCase().includes(filters.input.toLowerCase()));
-    let radioButton=searchFilter.filter(todo=>todo.category.toLowerCase().includes(filters.radioButton.toLowerCase()));
-    filteredTodos=radioButton;
+    //secondly implement the filter category button on searchFilter todos and put the conlucsion in searchFilter variable
+    let categoryButtonFilter=searchFilter.filter(todo=>todo.category.toLowerCase().includes(filters.categoryButton.toLowerCase()));
+    filteredTodos=categoryButtonFilter;
 }
 
 function addButtonHandler(e){
